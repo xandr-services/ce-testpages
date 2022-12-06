@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -11,7 +12,7 @@
     <!--<script async src="//acdn.adnxs.com/prebid/not-for-prod/1/prebid.js"></script> -->
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/prebid.js@latest/dist/not-for-prod/prebid.js" async></script>
     <script type="text/javascript" src="//acdn.adnxs.com/ast/ast.js" async></script>
-      
+
     <style media="screen">
         body {
           background: #eaf6f6;
@@ -45,54 +46,32 @@
 
 
     </style>
+
     <script>
-    	function removeHTMLComment(str){
-      	return str.replace("<!--", "").replace("-->", "");
-      }
-
-      function getCompanionAdsById(dom, id){
-        let compDomElem = dom.getElementById(id);
-        let admComment = compDomElem.innerHTML;
-        let adm = removeHTMLComment(admComment);
-        return adm;
-      }
-
-
-      function waitForElm(dom, selector) {
-          return new Promise(resolve => {
-              if (dom.querySelector(selector)) {
-                  return resolve(dom.querySelector(selector));
-              }
-
-              const observer = new MutationObserver(mutations => {
-                  if (dom.querySelector(selector)) {
-                      resolve(dom.querySelector(selector));
-                      observer.disconnect();
-                  }
-              });
-
-              observer.observe(dom, {
-                  childList: true,
-                  subtree: true,
-                  attributes: true,
-                  characterData: true
-              });
-          });
-      }
-
-      function renderFireplaceCompanion(dom, elm, target) {
-        try {
-          let adm = getCompanionAdsById(dom, elm);
+    function renderFireplaceCompanion (evt) {
+      try {
+        const data = JSON.parse(evt.data);
+        const channel = data.source;
+        if (channel == 'Xandr') {
+          const adm = data.adm;
+          const target = data.target;
           document.getElementById(target).innerHTML = adm;
-        } catch(error){
+        } else {
+          return;
         }
-      }
+      } catch (err) {}
+    }
 
-    </script> 
+    if (window.addEventListener) {
+      window.addEventListener("message", renderFireplaceCompanion, false);
+    } else {
+      window.attachEvent("onmessage", renderFireplaceCompanion);
+    }
+
+    </script>
 
      <script>
         let adUnits = [];
-
         let adUnit =
         {
             code: "right_sky",
@@ -111,14 +90,14 @@
                 }
             }]
         };
-        
+
         var PREBID_TIMEOUT = 1000;
 
         adUnits.push(adUnit);
         var pbjs = pbjs || {};
         pbjs.que = pbjs.que || [];
 
-            
+
         pbjs.que.push(function() {
             pbjs.setConfig({
                 debug: true
@@ -130,121 +109,47 @@
                 },
                 timeout: PREBID_TIMEOUT
             });
-
-           /*
-            pbjs.addAdUnits(adUnits);
-            pbjs.requestBids({
-                bidsBackHandler: function (bidResponses) {
-                var winningBids = [];
-
-                let ad = pbjs.getHighestCpmBids("right_sky");
-
-                if (ad && ad.length > 0) {
-                    let idIFrame = "right_skyframe";
-
-                    let iFrame = "<iframe id='" + idIFrame + "'"
-                    + " FRAMEBORDER=\"0\""
-                    + " SCROLLING=\"no\""
-                    + " MARGINHEIGHT=\"0\""
-                    + " MARGINWIDTH=\"0\""
-                    + " TOPMARGIN=\"0\""
-                    + " LEFTMARGIN=\"0\""
-                    + " ALLOWTRANSPARENCY=\"true\""
-                    + " WIDTH=\"0\""
-                    + " HEIGHT=\"0\">."
-                    + " </iframe>"
-
-                    document.getElementById("right_sky").innerHTML += iFrame;
-
-                    var iframe = document.getElementById(idIFrame);
-                    var iframeDoc = iframe.contentWindow.document;
-
-                    try {
-                        pbjs.renderAd(iframeDoc, ad[0]['adId']);
-                    } catch (e) {
-                        console.log(e);
-                    }
-
-                    winningBids = pbjs.getAllWinningBids();
-                    console.log(winningBids);
-                } 
-                else 
-                {
-                  console.log("No bids");
-                };
-            },
-                timeout: 2000
-            });   */
         });
         </script>
-      
+
       <script type="text/javascript">
-          
-      
+
       var apntag = apntag || {};
       apntag.anq = apntag.anq || [];
+      apntag.anq.push(function() {
+          apntag.anq.push(function() {
+              apntag.setPageOpts({
+                  member: 958,
+                  disablePsa: false,
+                  targetingParams: {}
+              });
+              apntag.defineTag({
+                  tagId: 15712318,
+                  sizes: [[300,250], [301,601]],
+                  targetId: 'right_sky',
+                  allowedFormats: [ 'banner'],
+                  keywords: {
+                      'key': ['value']
+                    }
+              });
+          });
+      });
 
-      (function() {
-         var d = document, e = d.createElement('script'), p = d.getElementsByTagName('head')[0];
-         e.type = 'text/javascript';  e.async = true;
-         e.src = '//acdn.adnxs.com/ast/ast.js';
-         p.insertBefore(e, p.firstChild);
-      })();
-        /*  
-     apntag.anq.push(function() {
-        apntag.setPageOpts({
-            member: 958,
-            disablePsa: false,
-            targetingParams: {}
-        });
-        apntag.defineTag({
-            tagId: 18388951,
-            sizes: [[300,250], [301,601]],
-            targetId: 'right_sky',
-            allowedFormats: [ 'banner'],
-            keywords: {
-                'key': ['value']
-              }
-        });
-    }); */
-
-            //start loading tags
-          
-          //const delay = ms => new Promise(res => setTimeout(res, ms)); //function to delay the adserver call
-          
-            function initAdserver() {
-                //await delay(1000); //wait 2 seconds
+      function initAdserver() {
                 if (pbjs.requestSent) {
                     return;
                 }
                 pbjs.requestSent = true;
-                console.log('1');
                 pbjs.que.push(function() {
                     apntag.anq.push(function() {
-                        apntag.setPageOpts({
-                            member: 958,
-                            disablePsa: false,
-                            targetingParams: {}
-                        });
-                        apntag.defineTag({
-                            tagId: 15712318,
-                            sizes: [[300,250], [301,601]],
-                            targetId: 'right_sky',
-                            allowedFormats: [ 'banner'],
-                            keywords: {
-                                'key': ['value']
-                              }
-                        });
-                        console.log('2');
                         pbjs.setTargetingForAst();
                         apntag.loadTags();
-                        console.log('3');
                     });
                 });
-            }
+      }
 
       </script>
-      
+
     </head>
 
 
@@ -252,15 +157,19 @@
     <div class="container">
     <div class="adslot superbanner"> <div id="superbanner"></div> </div>
     <div class="adslot left_sky"> <div id="left_sky"></div> </div>
-    <div class="adslot right_sky"> 
-        <div id="right_sky">
-        </div>
+    <div class="adslot right_sky">
+      <div id="right_sky">
+        <script type="text/javascript">
+          apntag.anq.push(function() {
+            apntag.showTag('right_sky');
+          });
+        </script>
+      </div>
     </div>
     <div class="div4 content">
       <div class="jumbotron" style="background: #113f67; color: #e7eaf6; border-radius: 0;">
         <h2>MPX Fireplace Test Page with Prebid.js</h2>
         <p>For demonstration purposes only.</p>
-         <button onclick="apntag.showTag('right_sky');">ShowTag (Fireplace)</button>
       </div>
       <div class="container-fluid">
         <div class="row">
