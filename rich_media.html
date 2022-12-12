@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <title>High Impact Formats Prebid Implementation</title>
+   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/monokai-sublime.css">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+   <script async src="https://acdn.adnxs.com/prebid/anx/prebid.js"></script>
+   <script>
+      var sizes = [
+         [300, 250]
+      ];
+      var PREBID_TIMEOUT = 1000;
+      var FAILSAFE_TIMEOUT = 3000;
+      var adUnits = [
+         {
+            code: '/19968336/jvogt_rich_media',
+            mediaTypes: {
+               banner: {
+                  sizes: [[300, 600]]
+               }
+            },
+            bids: [{
+               bidder: 'appnexus',
+               params: {
+                  placementId: 18861150
+               }
+            }]
+         }
+
+      ];
+      // ======== DO NOT EDIT BELOW THIS LINE =========== //
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+      googletag.cmd.push(function () {
+         googletag.pubads().disableInitialLoad();
+      });
+      var pbjs = pbjs || {};
+      pbjs.que = pbjs.que || [];
+      pbjs.que.push(function () {
+         pbjs.addAdUnits(adUnits);
+         pbjs.requestBids({
+            bidsBackHandler: initAdserver,
+            timeout: PREBID_TIMEOUT
+         });
+      });
+      function initAdserver() {
+         if (pbjs.initAdserverSet) return;
+         pbjs.initAdserverSet = true;
+         googletag.cmd.push(function () {
+            pbjs.que.push(function () {
+               pbjs.setTargetingForGPTAsync();
+               googletag.pubads().refresh();
+            });
+         });
+      }
+      // in case PBJS doesn't load
+      setTimeout(function () {
+         initAdserver();
+      }, FAILSAFE_TIMEOUT);
+      googletag.cmd.push(function () {
+         googletag.defineSlot('/19968336/jvogt_rich_media', [300, 250], 'div-2').addService(googletag.pubads());
+         googletag.pubads().enableSingleRequest();
+         googletag.enableServices();
+      });
+   </script>
+
+   <script src="js/sitebar.host.js"></script>
+   <script type="text/javascript">
+      PrebidCustomFormats.enableCustomFormats('div-2', 'site', 'left');
+   </script>
+
+</head>
+
+<body class="video">
+   <div id="header">
+      <div class="logo"></div>
+      <div id="nav_btn"></div>
+   </div>
+   <div id="nav_c2"></div>
+   <div id="site" class="site">
+      <div class="dtable">
+         <div class="dtd" id="nav_c">
+            <div id="nav">
+               <div class="padd">
+                  <a href="./" class="item">
+                     <span>Intro</span>
+                  </a>
+                  <a href="native.html" class="item">
+                     <span>Native</span>
+                  </a>
+                  <a href="native_assembly.html" class="item">
+                     <span>Native Assembly</span>
+                  </a>
+                  <a href="video_outstream.html" class="item">
+                     <span>Video</span>&nbsp;(Outstream)
+                  </a>
+                   <a href="video_instream.html" class="item">
+                     <span>Video</span>&nbsp;(Instream)
+                  </a>
+                  <a href="rich_media.html" class="item selected">
+                     <span>Rich Media</span>
+                  </a>
+               </div>
+            </div>
+         </div>
+         <div class="dtd">
+            <div id="container">
+               <h1>Rich Media - Prebid Implementation</h1>
+               <h2>Intro</h2>
+                     <p>The workflow for selling High Impact inventory on the Xandr Marketplace via Prebid is described in the <a href="resources/High_Impact_Sellers_Guide_v01.pdf" target="_blank">Xandr High Impact Formats Selling Guide</a>. This demo page describes in detail how a basic tagging setup for a dynamic sitebar format on the page can look like.
+                    <br>
+                     Necessary references to the Prebid Documentation that are not mentinoed here can also be found in the <a href="resources/Native_Sellers_Guide_v01.pdf" target="_blank">Xandr High Impact Formats Selling Guide</a>
+                    <br>
+                     On <a href="https://jsfiddle.net/tpur64wh/" target="_blank">jsfiddle.net</a>, a customizable version of the full tech implementation showcased on this page can be found. This can be used to test the Google Ad Manager side of any setup, leveraging an always-on campaign on the Xandr end and the Xandr Placement <i>18861150</i>.
+                   </p>
+
+                     <h2>Tagging</h2>
+                     <p>Just like with other Prebid Integrations, <i>prebid.js</i> and Goolge's <i>gpt.js</i> need to be loaded in the <i>&lt;head&gt</i> of the page.</p>
+                        <div>
+                           <pre><code class="html">&lt;script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"&gt&lt;/script&gt
+&lt;script async src="js/prebid3.16.0.js"&gt&lt;/script&gt</code></pre>
+                        </div>
+                    <p>To enable the iframe holding the creative to expand and stay on top while scrolling, the page needs to run a script that communicates with the iframe and resiszes it when necessary. This script is publisher-specific and has to be developed on the publisher side. The script on this page can act as a starting point for the development. Find the host script <a href="prebid.juliusv.de/js/sitebar.host.js" target="_blank">here</a><br />
+                        The sitebar script also needs to be loaded in the <i>&lt;head&gt</i> of the page. Custom formats can then be enabled per div on the page so the script knows in which div ('div-2' in this example) on the page the high impact format should be rendered.</p>
+
+                         <div>
+                             <pre><code class="html">&lt;script src="js/sitebar.host.js"&gt&lt;/script&gt
+&lt;script type="text/javascript"&gt
+    PrebidCustomFormats.enableCustomFormats('div-2', 'site', 'left');
+&lt;/script&gt</code></pre>
+                         </div>
+               <p>The setup of the Prebid adUnits is as simple as setting up regular banner adUnits. Make sure that the correct size for the high impact format that should be sold is requested. The format-specific sizes can be found in the <a href="resources/Native_Sellers_Guide_v01.pdf" target="_blank">Xandr High Impact Formats Selling Guide</a></p>
+
+            <h2>Ad Server Setup</h2>
+                <p>The line items in the ad server need to be set up in a way that the each high impact format has an individual adserver creative. This is important because the Prebid Universal Creative which is used in the ad server has to be modified specifically for each format.
+                An ad server would therefore typically have a set (one for each price bucket) of line items targeting dynamic sitebar inventory, a set of line items for targeting interscroller inventory etc. The format specific targeting in the ad server line items can either be done by targeting a deal id (a deal then needs to be set up in Xandr), or by targeting the format-specific size. As some high impact sizes are also used for standard banner creatives (dynamic sitebar is trafficked as 300x600 and so is a halfpage ad), Xandr recommends setting up deals to traffic high impact formats.
+
+                <br />
+                The modification of the Prebid Universal Creative in the ad server is, again, publisher-specific and has to be developed on the publisher side. The creative used in this example simply signals the host script that it's a dynamic sitebar creative and the host script then takes care of the resizing.</p>
+                <div>
+                    <pre><code class="html">&lt;script src = "https://cdn.jsdelivr.net/npm/prebid-universal-creative@latest/dist/creative.js"&gt&lt;/script&gt
+
+&lt;script&gt
+  window.parent.postMessage('custom_formats_request_dynamic_sitebar', '*');
+  var ucTagData = {};
+  ucTagData.adServerDomain = "";
+  ucTagData.pubUrl = "%%PATTERN:url%%";
+  ucTagData.targetingMap = %%PATTERN:TARGETINGMAP%%;
+  ucTagData.hbPb = "%%PATTERN:hb_pb%%";
+
+  try {
+    ucTag.renderAd(document, ucTagData);
+  } catch (e) {
+    console.log(e);
+  }
+&lt;/script&gt
+                    </code></pre>
+                </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="sitebar">
+      <div id='div-2'>
+         <script type='text/javascript'>
+            googletag.cmd.push(function () {
+               googletag.display('div-2');
+            });
+         </script>
+      </div>
+   </div>
+
+   <script src="js/highlight.pack.js"></script>
+   <script>hljs.initHighlightingOnLoad();</script>
+   <script src="js/lc.js"></script>
+   <script src="js/demo.js"></script>
+</body>
+
+</html>
