@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>MPX Fireplace Testpage - Prebid version</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300|ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style media="screen">
+        body {
+          background: #eaf6f6;
+         }
+
+         p {
+           padding: 1em;
+         }
+
+        .container {
+          display: grid;
+          grid-template-columns: 1fr 728px 1fr;
+          grid-template-rows: auto 0.8fr 0.5fr 0.5fr 0.5fr;
+          gap: 0px 0px;
+          grid-auto-flow: row;
+          grid-template-areas:
+            "left_sky superbanner right_sky"
+            "left_sky content right_sky"
+            "left_sky content right_sky"
+            "left_sky content right_sky"
+            "left_sky content right_sky";
+        }
+
+        .superbanner { grid-area: superbanner; }
+
+        .left_sky { grid-area: left_sky; justify-items: end; justify-content: end; }
+
+        .right_sky { grid-area: right_sky; }
+
+        .content { grid-area: content; background: #fcfefe; color: #2f3033; margin-top: -6px; }
+
+
+    </style>
+
+    </head>
+
+
+  <body>
+    <div class="container">
+    <div class="adslot superbanner"> <div id="superbanner"></div> </div>
+    <div class="adslot left_sky"> <div id="left_sky"></div> </div>
+    <div class="adslot right_sky"> 
+        <div id="right_sky">
+        </div>
+    </div>
+    <div class="div4 content">
+      <div class="jumbotron" style="background: #113f67; color: #e7eaf6; border-radius: 0;">
+        <h2>Index for Xandr Services Test Pages</h2>
+        <p>For demonstration purposes only.</p>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+            <h2>Please find below the links to our test pages:</h2>
+
+            <p>
+                <a href="https://xandr-services.github.io/ce-testpages/prebid_fireplace.html">Custom Formats: Fireplace (MPX) with Prebid.js</a>
+            </p>
+
+          
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </div>
+    </div>
+    </div>
+ </body>
+</html>
