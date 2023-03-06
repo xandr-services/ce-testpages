@@ -9,6 +9,8 @@
 
 + [Custom Formats: Fireplace (MPX) with AST (Xandr Ad Server Tag)](https://xandr-services.github.io/ce-testpages/ast-fireplace.html)
 
++ [Custom Formats: Rich Media Seller's Guide for Prebid](https://xandr-services.github.io/ce-testpages/resources/Rich_Media_Sellers_Guide_v01.pdf)
+
 + [Native: Server-side Assembly with Prebid.js](https://xandr-services.github.io/ce-testpages/prebid-ssna.html)
 
 
